@@ -1,0 +1,4 @@
+pada hari ke 7 
+membuat fungsi cari pada index data buku 
+dan menambahkan upload foto pada tambah data buku
+mengedit foto pada tombol edit dan mengambil foto pada database
