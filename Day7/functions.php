@@ -126,6 +126,46 @@ function cari($keyword){
     return query($query);
 }
 
+//function registrasi pda regis.php
+function registrasi($data) {
+    global $conn;
+
+    //mengambil data dari post regis
+    $email = strtolower(stripslashes($data["email"]));
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
+
+    //cek apakah user sudah terdaftar atau belum
+    $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
+    if (mysqli_fetch_assoc($result)) {
+        echo "
+            <script>
+                alert('Username Telah terdaftar');
+            </script>
+        ";
+        return false;
+    }
+
+    //cek konfirmasi password
+    if ( $password !== $password2 ) {
+        echo "
+            <script>
+                alert('password yang dimasukan tidak sama');
+            </script>
+        ";
+        return false;
+    }
+
+    //enkripsi password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    //memasukan data ke dalam database
+    $query = "INSERT INTO user VALUES ('', '$email', '$password')";
+    mysqli_query($conn, $query);
+    
+    return mysqli_affected_rows($conn);
+}
+
 
 
 //ambil data(fetch) buku dari object result(mengambil semua data array pada tbl detail-buku)
